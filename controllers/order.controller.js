@@ -1,10 +1,10 @@
-import Order from "../models/order.model.js";
-import Product from "../models/product.model.js";
-import User from "../models/user.model.js";
-import jwt from "jsonwebtoken";
-import Chapa from "chapa";
+const Order = require("../models/order.model.js");
+const Product = require("../models/product.model.js");
+const User = require("../models/user.model.js");
+const jwt = require("jsonwebtoken");
+const Chapa = require("chapa");
 
-export const CreateOrder = async (req, res) => {
+const CreateOrder = async (req, res) => {
   try {
     const { customer, phone, cart, address, position } = req.body;
     var cartPrice = [];
@@ -104,7 +104,7 @@ export const CreateOrder = async (req, res) => {
   }
 };
 
-export const GetSingleOrder = async (req, res) => {
+const GetSingleOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
     const singleOrder = await Order.findOne({ orderId }).select([
@@ -139,3 +139,5 @@ export const GetSingleOrder = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+module.exports = { CreateOrder, GetSingleOrder };

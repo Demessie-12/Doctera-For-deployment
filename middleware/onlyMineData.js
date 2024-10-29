@@ -1,7 +1,7 @@
-import Order from "../models/order.model.js";
-import User from "../models/user.model.js";
+const Order = require("../models/order.model.js");
+const User = require("../models/user.model.js");
 
-export const OnlyMineData = async (req, res, next) => {
+const OnlyMineData = async (req, res, next) => {
   try {
     const { username } = req.params;
 
@@ -23,3 +23,5 @@ export const OnlyMineData = async (req, res, next) => {
     console.log("Error in OnlyMineData middleware", error.message);
   }
 };
+
+module.exports = { OnlyMineData };

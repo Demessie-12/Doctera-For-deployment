@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Product from "./product.model.js";
+const mongoose = require("mongoose");
+const Product = require("./product.model.js");
 
 const reviewSchema = mongoose.Schema(
   {
@@ -80,4 +80,4 @@ reviewSchema.post(/^findByIdAndDelete/, async function () {
 
 const Review = mongoose.model("Review", reviewSchema);
 
-export default Review;
+module.exports = Review;

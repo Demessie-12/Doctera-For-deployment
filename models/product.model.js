@@ -1,15 +1,11 @@
-import mongoose from "mongoose";
-import { customAlphabet } from "nanoid";
-import slugify from "slugify";
-
-const nanoid = customAlphabet("02345", 1);
+const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const productSchema = mongoose.Schema(
   {
     productId: {
       type: String,
       required: true,
-      default: () => nanoid(),
       index: { unique: true },
     },
     creator: {
@@ -109,4 +105,4 @@ productSchema.pre("save", function (next) {
 
 const Product = mongoose.model("Product", productSchema);
 
-export default Product;
+module.exports = Product;

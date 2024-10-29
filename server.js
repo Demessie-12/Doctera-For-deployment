@@ -1,29 +1,29 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const connectToMongoDB = require("./db/connectToMongoDB.js");
 
-import startRoutes from "./routes/start.routes.js";
-import authRoutes from "./routes/auth.routes.js";
-import connectToMongoDB from "./db/connectToMongoDB.js";
-import productRoutes from "./routes/product.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
-import orderRoutes from "./routes/order.routes.js";
-import reviewRoutes from "./routes/review.route.js";
-import { checkLogin, restrictTo } from "./middleware/authController.js";
-import PaymnetRoutes from "./routes/payment.route.js";
+const startRoutes = require("./routes/start.routes.js");
+const authRoutes = require("./routes/auth.routes.js");
+const productRoutes = require("./routes/product.routes.js");
+const adminRoutes = require("./routes/admin.routes.js");
+const orderRoutes = require("./routes/order.routes.js");
+const reviewRoutes = require("./routes/review.route.js");
+const { checkLogin, restrictTo } = require("./middleware/authController.js");
+const PaymnetRoutes = require("./routes/payment.route.js");
 
 const app = express();
 
 dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", // Change to your frontend's URL
-//     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-//   })
-// );
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Change to your frontend's URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  })
+);
 // app.use(
 //   cors({
 //     origin: "https://localhost:5173/",

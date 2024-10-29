@@ -1,6 +1,6 @@
-import Product from "../models/product.model.js";
+const Product = require("../models/product.model.js");
 
-export const GetAllProducts = async (req, res) => {
+const GetAllProducts = async (req, res) => {
   try {
     const Products = await Product.find({ status: "Verified" }).populate(
       "reviews"
@@ -15,7 +15,7 @@ export const GetAllProducts = async (req, res) => {
   }
 };
 
-export const GetProductsByCategory = async (req, res) => {
+const GetProductsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
     const categoryProducts = await Product.find({
@@ -36,7 +36,7 @@ export const GetProductsByCategory = async (req, res) => {
   }
 };
 
-export const GetSingleProduct = async (req, res) => {
+const GetSingleProduct = async (req, res) => {
   try {
     const { ProductID } = req.params;
     console.log(ProductID);
@@ -53,7 +53,7 @@ export const GetSingleProduct = async (req, res) => {
   }
 };
 
-export const PostProduct = async (req, res) => {
+const PostProduct = async (req, res) => {
   try {
     const creator = req.user.username;
     const creatorPhone = req.user.phoneNumber;
@@ -109,7 +109,7 @@ export const PostProduct = async (req, res) => {
   }
 };
 
-export const EditProduct = async (req, res) => {
+const EditProduct = async (req, res) => {
   try {
     const { ProductID } = req.params;
     const selectedProduct = await Product.findOne({ productId: ProductID });
@@ -172,7 +172,7 @@ export const EditProduct = async (req, res) => {
   }
 };
 
-export const DeleteProduct = async (req, res) => {
+const DeleteProduct = async (req, res) => {
   try {
     const { ProductID } = req.params;
     const selectedProduct = await Product.findOne({ productId: ProductID });
@@ -186,4 +186,13 @@ export const DeleteProduct = async (req, res) => {
     console.log("Error in DeleteProduct product.contoller", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+
+module.exports = {
+  GetAllProducts,
+  GetProductsByCategory,
+  GetSingleProduct,
+  PostProduct,
+  EditProduct,
+  DeleteProduct,
 };

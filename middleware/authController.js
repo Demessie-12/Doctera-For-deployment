@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
-import Product from "../models/product.model.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.model.js");
+const Product = require("../models/product.model.js");
 
-export const checkLogin = async (req, res, next) => {
+const checkLogin = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
 
@@ -33,7 +33,7 @@ export const checkLogin = async (req, res, next) => {
   }
 };
 
-export const restrictTo = (...roles) => {
+const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res
@@ -44,7 +44,7 @@ export const restrictTo = (...roles) => {
   };
 };
 
-export const restrictToCreatorOr = (...roles) => {
+const restrictToCreatorOr = (...roles) => {
   return async (req, res, next) => {
     const product = await Product.findOne({
       productId: req.params.ProductID,
@@ -65,3 +65,5 @@ export const restrictToCreatorOr = (...roles) => {
     next();
   };
 };
+
+module.exports = { checkLogin, restrictTo, restrictToCreatorOr };

@@ -1,6 +1,6 @@
-import Chapa from "chapa";
+const Chapa = require("chapa");
 
-export const CreatePayment = async (req, res) => {
+const CreatePayment = async (req, res) => {
   let myChapa = new Chapa(process.env.CHAPA_SECRET_KEY);
 
   // const customerInfo = {
@@ -50,3 +50,5 @@ export const CreatePayment = async (req, res) => {
   // async/await
   // let responses = await myChapa.verify("txn-reference");
 };
+
+module.exports = { CreatePayment };

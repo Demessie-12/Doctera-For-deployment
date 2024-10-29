@@ -1,6 +1,6 @@
-import Product from "../models/product.model.js";
+const Product = require("../models/product.model.js");
 
-export const MineDataWithAllProducts = async (req, res) => {
+const MineDataWithAllProducts = async (req, res) => {
   try {
     const Products = await Product.find({ status: "Verified" }).populate(
       "reviews"
@@ -15,3 +15,5 @@ export const MineDataWithAllProducts = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+module.exports = { MineDataWithAllProducts };

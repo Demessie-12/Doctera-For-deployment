@@ -1,17 +1,17 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   DeleteProduct,
   EditProduct,
   GetAllProducts,
   GetProductsByCategory,
   GetSingleProduct,
   PostProduct,
-} from "../controllers/product.controller.js";
-import {
+} = require("../controllers/product.controller.js");
+const {
   checkLogin,
   restrictTo,
   restrictToCreatorOr,
-} from "../middleware/authController.js";
+} = require("../middleware/authController.js");
 
 const router = express.Router();
 
@@ -37,4 +37,4 @@ router.delete(
   DeleteProduct
 );
 
-export default router;
+module.exports = router;

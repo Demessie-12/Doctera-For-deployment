@@ -1,10 +1,10 @@
-import Order from "../models/order.model.js";
-import Product from "../models/product.model.js";
-import User from "../models/user.model.js";
+const Order = require("../models/order.model.js");
+const Product = require("../models/product.model.js");
+const User = require("../models/user.model.js");
 
-import Chapa from "chapa";
+const Chapa = require("chapa");
 
-export const GetDashboardData = async (req, res) => {
+const GetDashboardData = async (req, res) => {
   try {
     const Users = await User.find().select("-password");
     const RecentUsers = Users.filter(
@@ -44,7 +44,7 @@ export const GetDashboardData = async (req, res) => {
   }
 };
 
-export const GetAllUsers = async (req, res) => {
+const GetAllUsers = async (req, res) => {
   try {
     const Users = await User.find().select("-password");
     res.status(200).json({ data: Users });
@@ -54,7 +54,7 @@ export const GetAllUsers = async (req, res) => {
   }
 };
 
-export const GetUsersByCategory = async (req, res) => {
+const GetUsersByCategory = async (req, res) => {
   try {
     const { category } = req.params;
 
@@ -74,7 +74,7 @@ export const GetUsersByCategory = async (req, res) => {
   }
 };
 
-export const GetSingleUser = async (req, res) => {
+const GetSingleUser = async (req, res) => {
   try {
     const { username } = req.params;
 
@@ -90,7 +90,7 @@ export const GetSingleUser = async (req, res) => {
   }
 };
 
-export const GetAllProductsForAdmin = async (req, res) => {
+const GetAllProductsForAdmin = async (req, res) => {
   try {
     const Products = await Product.find().populate("reviews");
 
@@ -106,7 +106,7 @@ export const GetAllProductsForAdmin = async (req, res) => {
   }
 };
 
-export const GetProductByStatus = async (req, res) => {
+const GetProductByStatus = async (req, res) => {
   try {
     const { status } = req.params;
 
@@ -121,7 +121,7 @@ export const GetProductByStatus = async (req, res) => {
   }
 };
 
-export const EditProductStatus = async (req, res) => {
+const EditProductStatus = async (req, res) => {
   try {
     const { productId } = req.params;
     const { status } = req.body;
@@ -144,7 +144,7 @@ export const EditProductStatus = async (req, res) => {
   }
 };
 
-export const DeleteProductById = async (req, res) => {
+const DeleteProductById = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
@@ -160,7 +160,7 @@ export const DeleteProductById = async (req, res) => {
   }
 };
 
-export const GetAllOrders = async (req, res) => {
+const GetAllOrders = async (req, res) => {
   try {
     const allOrders = await Order.find();
 
@@ -171,7 +171,7 @@ export const GetAllOrders = async (req, res) => {
   }
 };
 
-export const GetSingleOrderDetail = async (req, res) => {
+const GetSingleOrderDetail = async (req, res) => {
   try {
     const { orderId } = req.params;
     const singleOrder = await Order.findOne({ orderId });
@@ -201,7 +201,7 @@ export const GetSingleOrderDetail = async (req, res) => {
   }
 };
 
-export const EditOrderStatus = async (req, res) => {
+const EditOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;
@@ -228,7 +228,7 @@ export const EditOrderStatus = async (req, res) => {
   }
 };
 
-export const EditUserRole = async (req, res) => {
+const EditUserRole = async (req, res) => {
   try {
     const { username } = req.params;
     const { role } = req.body;
@@ -250,4 +250,19 @@ export const EditUserRole = async (req, res) => {
     console.log("Error in EditUserRole admin.contoller", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+
+module.exports = {
+  GetDashboardData,
+  GetAllUsers,
+  GetUsersByCategory,
+  GetSingleUser,
+  GetAllProductsForAdmin,
+  GetProductByStatus,
+  EditProductStatus,
+  DeleteProductById,
+  GetAllOrders,
+  GetSingleOrderDetail,
+  EditOrderStatus,
+  EditUserRole,
 };

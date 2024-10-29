@@ -1,6 +1,6 @@
-import Review from "../models/review.model.js";
+const Review = require("../models/review.model.js");
 
-export const CreateReview = async (req, res) => {
+const CreateReview = async (req, res) => {
   try {
     const { product, productId, rating, review } = req.body;
     // product should be product's mongodb ID using from product._id
@@ -31,7 +31,7 @@ export const CreateReview = async (req, res) => {
   }
 };
 
-export const GetAllReviews = async (req, res) => {
+const GetAllReviews = async (req, res) => {
   try {
     const AllReviews = await Review.find();
 
@@ -42,7 +42,7 @@ export const GetAllReviews = async (req, res) => {
   }
 };
 
-export const GetReviewsById = async (req, res) => {
+const GetReviewsById = async (req, res) => {
   try {
     const { _id } = req.params;
 
@@ -61,7 +61,7 @@ export const GetReviewsById = async (req, res) => {
   }
 };
 
-export const DeleteReviewById = async (req, res) => {
+const DeleteReviewById = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
@@ -75,4 +75,11 @@ export const DeleteReviewById = async (req, res) => {
     console.log("Error in DeleteReviewById, review.contoller", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
+};
+
+module.exports = {
+  CreateReview,
+  GetAllReviews,
+  GetReviewsById,
+  DeleteReviewById,
 };

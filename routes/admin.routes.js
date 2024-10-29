@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   DeleteProductById,
   EditOrderStatus,
   EditProductStatus,
@@ -12,8 +12,9 @@ import {
   GetSingleOrderDetail,
   GetSingleUser,
   GetUsersByCategory,
-} from "../controllers/admin.controller.js";
-import { restrictTo } from "../middleware/authController.js";
+} = require("../controllers/admin.controller.js");
+
+const { restrictTo } = require("../middleware/authController.js");
 
 const router = express.Router();
 
@@ -32,4 +33,4 @@ router.get("/orders", GetAllOrders);
 router.get("/orders/:orderId", GetSingleOrderDetail);
 router.patch("/orders/:orderId", EditOrderStatus);
 
-export default router;
+module.exports = router;
