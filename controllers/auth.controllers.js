@@ -136,6 +136,86 @@ const loginAdmin = async (req, res) => {
   }
 };
 
+const updateMyProfile = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const data = req.body;
+
+    const selectedUser = await User.findOne({ username }).select("-password");
+    const loggedUsername = req.user.username;
+
+    if (selectedUser?.username !== loggedUsername)
+      return res.status(404).json({ error: "You can't Edit Other's profile" });
+
+    const updatedUser = await User.findByIdAndUpdate(selectedUser._id, data, {
+      new: true,
+    }).select("-password");
+
+    res.status(200).json({ data: updatedUser });
+  } catch (error) {
+    console.log("Error in updateMyProfile, Auth controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+const updateMyPassword = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    const selectedUser = await User.findOne({ username });
+    const loggedUsername = req.user.username;
+
+    if (selectedUser?.username !== loggedUsername)
+      return res.status(404).json({ error: "You can't Edit Other's password" });
+
+    const isPasswordCorrect = await bcrypt.compare(
+      oldPassword,
+      selectedUser?.password || ""
+    );
+
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ error: "Please insert your old password correctly!" });
+    }
+    if (newPassword != confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "Password doesn't match, Please Confirm it" });
+    }
+    if (newPassword == oldPassword) {
+      return res
+        .status(400)
+        .json({ error: "Your new password is similar to previous password" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      selectedUser._id,
+      { password: hashedNewPassword },
+      {
+        new: true,
+      }
+    ).select("-password");
+    res.status(200).json({
+      data: {
+        fullname: updatedUser.fullname,
+        username: updatedUser.username,
+        gender: updatedUser.gender,
+        email: updatedUser.email,
+        phoneNumber: updatedUser.phoneNumber,
+        role: updatedUser.role,
+        profilePic: updatedUser.profilePic,
+      },
+    });
+  } catch (error) {
+    console.log("Error in updateMyProfile, Auth controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const logoutUser = (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
@@ -145,4 +225,11 @@ const logoutUser = (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-module.exports = { signupUser, loginUser, loginAdmin, logoutUser };
+module.exports = {
+  signupUser,
+  loginUser,
+  loginAdmin,
+  logoutUser,
+  updateMyProfile,
+  updateMyPassword,
+};
